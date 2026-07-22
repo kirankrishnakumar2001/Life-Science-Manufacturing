@@ -1,0 +1,573 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:lsm="http://example.org/life-science-manufacturing/ontology#"
+    xml:base="http://example.org/life-science-manufacturing/ontology">
+
+    <owl:Ontology rdf:about="http://example.org/life-science-manufacturing/ontology">
+        <rdfs:label>Enterprise Ontology for Life Science Manufacturing Bookings and Revenue Analytics</rdfs:label>
+        <rdfs:comment>OWL 2 ontology generated from the validated OSI Semantic Model. The business process document could not be read from the repository, so ontology comments and constraints are based only on explicitly available semantic model content. Validation warning: Business Process document readability failed due to UTF-8 decoding error. No additional business rules or individuals were inferred from that document.</rdfs:comment>
+        <owl:versionInfo>1.0.0</owl:versionInfo>
+    </owl:Ontology>
+
+    <owl:Class rdf:about="http://example.org/life-science-manufacturing/ontology#BusinessDomain">
+        <rdfs:label>Business Domain</rdfs:label>
+        <rdfs:comment>Represents a business domain defined in the semantic model.</rdfs:comment>
+    </owl:Class>
+
+    <owl:Class rdf:about="http://example.org/life-science-manufacturing/ontology#BusinessEntity">
+        <rdfs:label>Business Entity</rdfs:label>
+        <rdfs:comment>Represents a business entity defined in the semantic model.</rdfs:comment>
+    </owl:Class>
+
+    <owl:Class rdf:about="http://example.org/life-science-manufacturing/ontology#DimensionEntity">
+        <rdfs:subClassOf rdf:resource="http://example.org/life-science-manufacturing/ontology#BusinessEntity"/>
+        <rdfs:label>Dimension Entity</rdfs:label>
+        <rdfs:comment>Reference entity used to classify or describe booking transactions.</rdfs:comment>
+    </owl:Class>
+
+    <owl:Class rdf:about="http://example.org/life-science-manufacturing/ontology#FactEntity">
+        <rdfs:subClassOf rdf:resource="http://example.org/life-science-manufacturing/ontology#BusinessEntity"/>
+        <rdfs:label>Fact Entity</rdfs:label>
+        <rdfs:comment>Transactional entity containing measures and links to dimensions.</rdfs:comment>
+    </owl:Class>
+
+    <owl:Class rdf:about="http://example.org/life-science-manufacturing/ontology#ContractDimension">
+        <rdfs:subClassOf rdf:resource="http://example.org/life-science-manufacturing/ontology#DimensionEntity"/>
+        <rdfs:label>Contract Dimension</rdfs:label>
+        <rdfs:comment>Reference entity containing contract attributes used to classify bookings by commercial agreement structure, term, renewal behavior, and support coverage.</rdfs:comment>
+    </owl:Class>
+
+    <owl:Class rdf:about="http://example.org/life-science-manufacturing/ontology#CustomerDimension">
+        <rdfs:subClassOf rdf:resource="http://example.org/life-science-manufacturing/ontology#DimensionEntity"/>
+        <rdfs:label>Customer Dimension</rdfs:label>
+        <rdfs:comment>Reference entity containing customer master data used to analyze bookings by account, segment, industry, and headquarters geography.</rdfs:comment>
+    </owl:Class>
+
+    <owl:Class rdf:about="http://example.org/life-science-manufacturing/ontology#DateDimension">
+        <rdfs:subClassOf rdf:resource="http://example.org/life-science-manufacturing/ontology#DimensionEntity"/>
+        <rdfs:label>Date Dimension</rdfs:label>
+        <rdfs:comment>Reference entity containing calendar and fiscal attributes used to analyze bookings across reporting dates, fiscal years, quarters, and periods.</rdfs:comment>
+    </owl:Class>
+
+    <owl:Class rdf:about="http://example.org/life-science-manufacturing/ontology#GeographyDimension">
+        <rdfs:subClassOf rdf:resource="http://example.org/life-science-manufacturing/ontology#DimensionEntity"/>
+        <rdfs:label>Geography Dimension</rdfs:label>
+        <rdfs:comment>Reference entity containing regional, theater, and country attributes used to group bookings geographically.</rdfs:comment>
+    </owl:Class>
+
+    <owl:Class rdf:about="http://example.org/life-science-manufacturing/ontology#PartnerDimension">
+        <rdfs:subClassOf rdf:resource="http://example.org/life-science-manufacturing/ontology#DimensionEntity"/>
+        <rdfs:label>Partner Dimension</rdfs:label>
+        <rdfs:comment>Reference entity containing partner master data used to analyze indirect and direct sales channels.</rdfs:comment>
+    </owl:Class>
+
+    <owl:Class rdf:about="http://example.org/life-science-manufacturing/ontology#ProductDimension">
+        <rdfs:subClassOf rdf:resource="http://example.org/life-science-manufacturing/ontology#DimensionEntity"/>
+        <rdfs:label>Product Dimension</rdfs:label>
+        <rdfs:comment>Reference entity containing product and offer attributes used to analyze bookings across portfolios, technology areas, and offer types.</rdfs:comment>
+    </owl:Class>
+
+    <owl:Class rdf:about="http://example.org/life-science-manufacturing/ontology#SalesRepresentativeDimension">
+        <rdfs:subClassOf rdf:resource="http://example.org/life-science-manufacturing/ontology#DimensionEntity"/>
+        <rdfs:label>Sales Representative Dimension</rdfs:label>
+        <rdfs:comment>Reference entity containing sales representative attributes used to analyze bookings by seller, team, role, and covered segment.</rdfs:comment>
+    </owl:Class>
+
+    <owl:Class rdf:about="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact">
+        <rdfs:subClassOf rdf:resource="http://example.org/life-science-manufacturing/ontology#FactEntity"/>
+        <rdfs:label>Booking Transaction Fact</rdfs:label>
+        <rdfs:comment>Central transactional entity capturing individual booking transaction lines and associated financial measures linked to all core business dimensions.</rdfs:comment>
+        <owl:disjointWith rdf:resource="http://example.org/life-science-manufacturing/ontology#ContractDimension"/>
+        <owl:disjointWith rdf:resource="http://example.org/life-science-manufacturing/ontology#CustomerDimension"/>
+        <owl:disjointWith rdf:resource="http://example.org/life-science-manufacturing/ontology#DateDimension"/>
+        <owl:disjointWith rdf:resource="http://example.org/life-science-manufacturing/ontology#GeographyDimension"/>
+        <owl:disjointWith rdf:resource="http://example.org/life-science-manufacturing/ontology#PartnerDimension"/>
+        <owl:disjointWith rdf:resource="http://example.org/life-science-manufacturing/ontology#ProductDimension"/>
+        <owl:disjointWith rdf:resource="http://example.org/life-science-manufacturing/ontology#SalesRepresentativeDimension"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/life-science-manufacturing/ontology#hasContract"/>
+                <owl:allValuesFrom rdf:resource="http://example.org/life-science-manufacturing/ontology#ContractDimension"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/life-science-manufacturing/ontology#hasCustomer"/>
+                <owl:allValuesFrom rdf:resource="http://example.org/life-science-manufacturing/ontology#CustomerDimension"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/life-science-manufacturing/ontology#hasBookingDate"/>
+                <owl:allValuesFrom rdf:resource="http://example.org/life-science-manufacturing/ontology#DateDimension"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/life-science-manufacturing/ontology#hasGeography"/>
+                <owl:allValuesFrom rdf:resource="http://example.org/life-science-manufacturing/ontology#GeographyDimension"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/life-science-manufacturing/ontology#hasPartner"/>
+                <owl:allValuesFrom rdf:resource="http://example.org/life-science-manufacturing/ontology#PartnerDimension"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/life-science-manufacturing/ontology#hasProduct"/>
+                <owl:allValuesFrom rdf:resource="http://example.org/life-science-manufacturing/ontology#ProductDimension"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/life-science-manufacturing/ontology#hasSalesRepresentative"/>
+                <owl:allValuesFrom rdf:resource="http://example.org/life-science-manufacturing/ontology#SalesRepresentativeDimension"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/life-science-manufacturing/ontology#hasContract"/>
+                <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/life-science-manufacturing/ontology#hasCustomer"/>
+                <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/life-science-manufacturing/ontology#hasBookingDate"/>
+                <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/life-science-manufacturing/ontology#hasGeography"/>
+                <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/life-science-manufacturing/ontology#hasPartner"/>
+                <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/life-science-manufacturing/ontology#hasProduct"/>
+                <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/life-science-manufacturing/ontology#hasSalesRepresentative"/>
+                <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+
+    <owl:ObjectProperty rdf:about="http://example.org/life-science-manufacturing/ontology#hasContract">
+        <rdfs:label>has Contract</rdfs:label>
+        <rdfs:comment>Links a booking transaction to its associated contract dimension record.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+        <rdfs:range rdf:resource="http://example.org/life-science-manufacturing/ontology#ContractDimension"/>
+        <owl:inverseOf rdf:resource="http://example.org/life-science-manufacturing/ontology#isContractForBooking"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="http://example.org/life-science-manufacturing/ontology#isContractForBooking">
+        <rdfs:label>is Contract For Booking</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#ContractDimension"/>
+        <rdfs:range rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="http://example.org/life-science-manufacturing/ontology#hasCustomer">
+        <rdfs:label>has Customer</rdfs:label>
+        <rdfs:comment>Links a booking transaction to its associated customer dimension record.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+        <rdfs:range rdf:resource="http://example.org/life-science-manufacturing/ontology#CustomerDimension"/>
+        <owl:inverseOf rdf:resource="http://example.org/life-science-manufacturing/ontology#isCustomerForBooking"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="http://example.org/life-science-manufacturing/ontology#isCustomerForBooking">
+        <rdfs:label>is Customer For Booking</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#CustomerDimension"/>
+        <rdfs:range rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="http://example.org/life-science-manufacturing/ontology#hasBookingDate">
+        <rdfs:label>has Booking Date</rdfs:label>
+        <rdfs:comment>Links a booking transaction to its associated date dimension record.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+        <rdfs:range rdf:resource="http://example.org/life-science-manufacturing/ontology#DateDimension"/>
+        <owl:inverseOf rdf:resource="http://example.org/life-science-manufacturing/ontology#isDateForBooking"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="http://example.org/life-science-manufacturing/ontology#isDateForBooking">
+        <rdfs:label>is Date For Booking</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#DateDimension"/>
+        <rdfs:range rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="http://example.org/life-science-manufacturing/ontology#hasGeography">
+        <rdfs:label>has Geography</rdfs:label>
+        <rdfs:comment>Links a booking transaction to its associated geography dimension record.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+        <rdfs:range rdf:resource="http://example.org/life-science-manufacturing/ontology#GeographyDimension"/>
+        <owl:inverseOf rdf:resource="http://example.org/life-science-manufacturing/ontology#isGeographyForBooking"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="http://example.org/life-science-manufacturing/ontology#isGeographyForBooking">
+        <rdfs:label>is Geography For Booking</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#GeographyDimension"/>
+        <rdfs:range rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="http://example.org/life-science-manufacturing/ontology#hasPartner">
+        <rdfs:label>has Partner</rdfs:label>
+        <rdfs:comment>Links a booking transaction to its associated partner dimension record.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+        <rdfs:range rdf:resource="http://example.org/life-science-manufacturing/ontology#PartnerDimension"/>
+        <owl:inverseOf rdf:resource="http://example.org/life-science-manufacturing/ontology#isPartnerForBooking"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="http://example.org/life-science-manufacturing/ontology#isPartnerForBooking">
+        <rdfs:label>is Partner For Booking</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#PartnerDimension"/>
+        <rdfs:range rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="http://example.org/life-science-manufacturing/ontology#hasProduct">
+        <rdfs:label>has Product</rdfs:label>
+        <rdfs:comment>Links a booking transaction to its associated product dimension record.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+        <rdfs:range rdf:resource="http://example.org/life-science-manufacturing/ontology#ProductDimension"/>
+        <owl:inverseOf rdf:resource="http://example.org/life-science-manufacturing/ontology#isProductForBooking"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="http://example.org/life-science-manufacturing/ontology#isProductForBooking">
+        <rdfs:label>is Product For Booking</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#ProductDimension"/>
+        <rdfs:range rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="http://example.org/life-science-manufacturing/ontology#hasSalesRepresentative">
+        <rdfs:label>has Sales Representative</rdfs:label>
+        <rdfs:comment>Links a booking transaction to its associated sales representative dimension record.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+        <rdfs:range rdf:resource="http://example.org/life-science-manufacturing/ontology#SalesRepresentativeDimension"/>
+        <owl:inverseOf rdf:resource="http://example.org/life-science-manufacturing/ontology#isSalesRepresentativeForBooking"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="http://example.org/life-science-manufacturing/ontology#isSalesRepresentativeForBooking">
+        <rdfs:label>is Sales Representative For Booking</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#SalesRepresentativeDimension"/>
+        <rdfs:range rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+    </owl:ObjectProperty>
+
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#contractKey">
+        <rdfs:label>contract Key</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#ContractDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#contractType">
+        <rdfs:label>contract Type</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#ContractDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#termMonths">
+        <rdfs:label>contract Term in Months</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#ContractDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#autoRenewFlag">
+        <rdfs:label>auto-Renew Indicator</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#ContractDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#coverageLevel">
+        <rdfs:label>coverage Level</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#ContractDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#customerKey">
+        <rdfs:label>customer Key</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#CustomerDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#customerId">
+        <rdfs:label>customer ID</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#CustomerDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#customerName">
+        <rdfs:label>customer Name</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#CustomerDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#segment">
+        <rdfs:label>customer Segment</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#CustomerDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#industry">
+        <rdfs:label>customer Industry</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#CustomerDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#accountTier">
+        <rdfs:label>account Tier</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#CustomerDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#hqCountry">
+        <rdfs:label>headquarters Country</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#CustomerDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#hqRegion">
+        <rdfs:label>headquarters Region</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#CustomerDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#dateKey">
+        <rdfs:label>date Key</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#DateDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#fullDate">
+        <rdfs:label>full Date</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#DateDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#monthName">
+        <rdfs:label>month Name</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#DateDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#calendarYear">
+        <rdfs:label>calendar Year</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#DateDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#fiscalYear">
+        <rdfs:label>fiscal Year</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#DateDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#fiscalQuarter">
+        <rdfs:label>fiscal Quarter</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#DateDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#fiscalPeriodSequence">
+        <rdfs:label>fiscal Period Sequence</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#DateDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#geographyKey">
+        <rdfs:label>geography Key</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#GeographyDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#region">
+        <rdfs:label>sales Region</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#GeographyDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#theater">
+        <rdfs:label>sales Theater</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#GeographyDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#country">
+        <rdfs:label>country</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#GeographyDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#partnerKey">
+        <rdfs:label>partner Key</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#PartnerDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#partnerId">
+        <rdfs:label>partner ID</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#PartnerDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#partnerName">
+        <rdfs:label>partner Name</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#PartnerDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#partnerType">
+        <rdfs:label>partner Type</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#PartnerDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#partnerTier">
+        <rdfs:label>partner Tier</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#PartnerDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#routeToMarket">
+        <rdfs:label>route to Market</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#PartnerDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#productKey">
+        <rdfs:label>product Key</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#ProductDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#productId">
+        <rdfs:label>product ID</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#ProductDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#productName">
+        <rdfs:label>product Name</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#ProductDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#productFamily">
+        <rdfs:label>product Family</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#ProductDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#technologyDomain">
+        <rdfs:label>technology Domain</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#ProductDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#businessEntity">
+        <rdfs:label>business Entity</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#ProductDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#salesRepKey">
+        <rdfs:label>sales Representative Key</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#SalesRepresentativeDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#repId">
+        <rdfs:label>sales Representative ID</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#SalesRepresentativeDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#repName">
+        <rdfs:label>sales Representative Name</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#SalesRepresentativeDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#salesRole">
+        <rdfs:label>sales Role</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#SalesRepresentativeDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#salesTeam">
+        <rdfs:label>sales Team</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#SalesRepresentativeDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#segmentCovered">
+        <rdfs:label>covered Segment</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#SalesRepresentativeDimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#bookingId">
+        <rdfs:label>booking ID</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#orderNumber">
+        <rdfs:label>order Number</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#orderLineNumber">
+        <rdfs:label>order Line Number</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#bookingType">
+        <rdfs:label>booking Type</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#isRenewal">
+        <rdfs:label>renewal Indicator</rdfs:label>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#quantity">
+        <rdfs:label>quantity Sold</rdfs:label>
+        <rdfs:comment>Measure with aggregation type Sum.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#unitListPriceUsd">
+        <rdfs:label>unit List Price (USD)</rdfs:label>
+        <rdfs:comment>Measure with aggregation type Average.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#discountPct">
+        <rdfs:label>discount Percentage</rdfs:label>
+        <rdfs:comment>Measure with aggregation type Average.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#bookingAmountUsd">
+        <rdfs:label>booking Amount (USD)</rdfs:label>
+        <rdfs:comment>Measure with aggregation type Sum.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#acvUsd">
+        <rdfs:label>annual Contract Value (USD)</rdfs:label>
+        <rdfs:comment>Measure with aggregation type Sum.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://example.org/life-science-manufacturing/ontology#tcvUsd">
+        <rdfs:label>total Contract Value (USD)</rdfs:label>
+        <rdfs:comment>Measure with aggregation type Sum.</rdfs:comment>
+        <rdfs:domain rdf:resource="http://example.org/life-science-manufacturing/ontology#BookingTransactionFact"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:DatatypeProperty>
+
+</rdf:RDF>
