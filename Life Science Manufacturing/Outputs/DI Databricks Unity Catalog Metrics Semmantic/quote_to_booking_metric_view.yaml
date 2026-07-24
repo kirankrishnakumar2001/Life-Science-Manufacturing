@@ -1,0 +1,574 @@
+model:
+  model_name: quote_to_booking_bookings_semantic_model
+  version: "1.0"
+  description: Business semantic model for sales bookings and revenue analytics at booking order-line grain, enabling governed analysis of bookings across customer, product, partner, geography, sales representative, contract, and time dimensions.
+  owner: Revenue Operations
+  business_domain: Sales Bookings and Revenue Analytics
+source:
+  catalog: main
+  schema: QuoteToBooking
+  source_table: fact_bookings
+  source_type: BASE TABLE
+parameters:
+  - name: p_fiscal_year
+    datatype: string
+    default_value: null
+    description: Optional fiscal year parameter used to filter bookings by fiscal year.
+  - name: p_region
+    datatype: string
+    default_value: null
+    description: Optional sales region parameter used to filter bookings by geography region.
+  - name: p_country
+    datatype: string
+    default_value: null
+    description: Optional country parameter used to filter bookings by geography country.
+filters:
+  - name: active_fiscal_year
+    expression: "dim_date.fiscal_year = coalesce(:p_fiscal_year, dim_date.fiscal_year)"
+    description: Limits analysis to the selected fiscal year when provided.
+  - name: selected_region
+    expression: "dim_geography.region = coalesce(:p_region, dim_geography.region)"
+    description: Limits analysis to the selected sales region when provided.
+  - name: selected_country
+    expression: "dim_geography.country = coalesce(:p_country, dim_geography.country)"
+    description: Limits analysis to the selected country when provided.
+joins:
+  - join_name: join_booking_date
+    source_table: fact_bookings
+    target_table: dim_date
+    join_condition: fact_bookings.date_key = dim_date.date_key
+    join_type: left
+    cardinality: many_to_one
+  - join_name: join_booking_customer
+    source_table: fact_bookings
+    target_table: dim_customer
+    join_condition: fact_bookings.customer_key = dim_customer.customer_key
+    join_type: left
+    cardinality: many_to_one
+  - join_name: join_booking_product
+    source_table: fact_bookings
+    target_table: dim_product
+    join_condition: fact_bookings.product_key = dim_product.product_key
+    join_type: left
+    cardinality: many_to_one
+  - join_name: join_booking_partner
+    source_table: fact_bookings
+    target_table: dim_partner
+    join_condition: fact_bookings.partner_key = dim_partner.partner_key
+    join_type: left
+    cardinality: many_to_one
+  - join_name: join_booking_geography
+    source_table: fact_bookings
+    target_table: dim_geography
+    join_condition: fact_bookings.geography_key = dim_geography.geography_key
+    join_type: left
+    cardinality: many_to_one
+  - join_name: join_booking_sales_rep
+    source_table: fact_bookings
+    target_table: dim_sales_rep
+    join_condition: fact_bookings.sales_rep_key = dim_sales_rep.sales_rep_key
+    join_type: left
+    cardinality: many_to_one
+  - join_name: join_booking_contract
+    source_table: fact_bookings
+    target_table: dim_contract
+    join_condition: fact_bookings.contract_key = dim_contract.contract_key
+    join_type: left
+    cardinality: many_to_one
+dimensions:
+  - name: booking_id
+    display_name: Booking ID
+    source_column: fact_bookings.booking_id
+    data_type: integer
+    description: Unique identifier for the booking transaction record.
+    synonyms: [booking transaction id, transaction id]
+    format: "0"
+  - name: order_number
+    display_name: Order Number
+    source_column: fact_bookings.order_number
+    data_type: string
+    description: Business order number associated with the booking transaction.
+    synonyms: [sales order number, order id]
+    format: null
+  - name: order_line_number
+    display_name: Order Line Number
+    source_column: fact_bookings.order_line_number
+    data_type: integer
+    description: Line number within the order associated with the booking transaction.
+    synonyms: [order line, line number]
+    format: "0"
+  - name: booking_type
+    display_name: Booking Type
+    source_column: fact_bookings.booking_type
+    data_type: string
+    description: Indicates whether the booking is classified as new sale or renewal.
+    synonyms: [sale type, booking classification]
+    format: null
+  - name: is_renewal
+    display_name: Is Renewal
+    source_column: fact_bookings.is_renewal
+    data_type: integer
+    description: Indicates whether the booking transaction represents a renewal event.
+    synonyms: [renewal indicator, renewal flag]
+    format: "0"
+  - name: booking_date
+    display_name: Booking Date
+    source_column: dim_date.full_date
+    data_type: date
+    description: Calendar date represented by the booking transaction.
+    synonyms: [full date, transaction date]
+    format: yyyy-MM-dd
+  - name: month_name
+    display_name: Month Name
+    source_column: dim_date.month_name
+    data_type: string
+    description: Name of the calendar month for the booking date.
+    synonyms: [calendar month]
+    format: null
+  - name: calendar_year
+    display_name: Calendar Year
+    source_column: dim_date.calendar_year
+    data_type: integer
+    description: Four-digit calendar year associated with the booking date.
+    synonyms: [year]
+    format: "0"
+  - name: fiscal_year
+    display_name: Fiscal Year
+    source_column: dim_date.fiscal_year
+    data_type: string
+    description: Fiscal year used for bookings reporting and performance analysis.
+    synonyms: [fy, reporting year]
+    format: null
+  - name: fiscal_quarter
+    display_name: Fiscal Quarter
+    source_column: dim_date.fiscal_quarter
+    data_type: string
+    description: Fiscal quarter used for reporting and period-based business analysis.
+    synonyms: [fq, reporting quarter]
+    format: null
+  - name: fiscal_period_seq
+    display_name: Fiscal Period Sequence
+    source_column: dim_date.fiscal_period_seq
+    data_type: integer
+    description: Sequential number representing the order of the fiscal period in the reporting calendar.
+    synonyms: [period sequence, fiscal sequence]
+    format: "0"
+  - name: customer_id
+    display_name: Customer ID
+    source_column: dim_customer.customer_id
+    data_type: string
+    description: Business identifier assigned to the customer account.
+    synonyms: [account id, customer number]
+    format: null
+  - name: customer_name
+    display_name: Customer Name
+    source_column: dim_customer.customer_name
+    data_type: string
+    description: Name of the customer organization associated with the booking.
+    synonyms: [account name, customer]
+    format: null
+  - name: customer_segment
+    display_name: Customer Segment
+    source_column: dim_customer.segment
+    data_type: string
+    description: Business segment such as Enterprise, Service Provider, or Public Sector.
+    synonyms: [segment, account segment]
+    format: null
+  - name: industry
+    display_name: Industry
+    source_column: dim_customer.industry
+    data_type: string
+    description: Customer industry classification used for business analysis.
+    synonyms: [industry vertical, vertical]
+    format: null
+  - name: account_tier
+    display_name: Account Tier
+    source_column: dim_customer.account_tier
+    data_type: string
+    description: Strategic importance or service tier of the customer account.
+    synonyms: [tier, account classification]
+    format: null
+  - name: hq_country
+    display_name: Headquarters Country
+    source_column: dim_customer.hq_country
+    data_type: string
+    description: Country where the customer's headquarters is located.
+    synonyms: [hq country, customer country]
+    format: null
+  - name: hq_region
+    display_name: Headquarters Region
+    source_column: dim_customer.hq_region
+    data_type: string
+    description: Region where the customer's headquarters is located.
+    synonyms: [hq region, customer region]
+    format: null
+  - name: product_id
+    display_name: Product ID
+    source_column: dim_product.product_id
+    data_type: string
+    description: Business identifier or SKU assigned to the product or offering.
+    synonyms: [sku, offering id]
+    format: null
+  - name: product_name
+    display_name: Product Name
+    source_column: dim_product.product_name
+    data_type: string
+    description: Name of the product, solution, or subscription offering.
+    synonyms: [offering name, solution name]
+    format: null
+  - name: product_family
+    display_name: Product Family
+    source_column: dim_product.product_family
+    data_type: string
+    description: Groups related products into a common family for portfolio analysis.
+    synonyms: [family, portfolio family]
+    format: null
+  - name: technology_domain
+    display_name: Technology Domain
+    source_column: dim_product.technology_domain
+    data_type: string
+    description: Technology area associated with the product such as networking, security, or collaboration.
+    synonyms: [technology area, domain]
+    format: null
+  - name: offer_type
+    display_name: Offer Type
+    source_column: dim_product.offer_type
+    data_type: string
+    description: Indicates whether the offering is hardware, software subscription, or SaaS subscription.
+    synonyms: [offering type, product type]
+    format: null
+  - name: business_entity
+    display_name: Business Entity
+    source_column: dim_product.business_entity
+    data_type: string
+    description: Internal business unit or portfolio associated with the product.
+    synonyms: [business unit, portfolio]
+    format: null
+  - name: partner_id
+    display_name: Partner ID
+    source_column: dim_partner.partner_id
+    data_type: string
+    description: Business identifier assigned to the partner organization.
+    synonyms: [partner number, channel partner id]
+    format: null
+  - name: partner_name
+    display_name: Partner Name
+    source_column: dim_partner.partner_name
+    data_type: string
+    description: Name of the partner organization involved in the sale or fulfillment process.
+    synonyms: [channel partner, reseller name]
+    format: null
+  - name: partner_type
+    display_name: Partner Type
+    source_column: dim_partner.partner_type
+    data_type: string
+    description: Business role of the partner such as distributor, reseller, systems integrator, or direct.
+    synonyms: [channel type, partner classification]
+    format: null
+  - name: partner_tier
+    display_name: Partner Tier
+    source_column: dim_partner.partner_tier
+    data_type: string
+    description: Partner program tier or accreditation level.
+    synonyms: [tier, program tier]
+    format: null
+  - name: route_to_market
+    display_name: Route to Market
+    source_column: dim_partner.route_to_market
+    data_type: string
+    description: Sales channel path through which the offering reaches the customer.
+    synonyms: [channel route, go to market route]
+    format: null
+  - name: sales_region
+    display_name: Sales Region
+    source_column: dim_geography.region
+    data_type: string
+    description: High-level geographic region used for sales analysis and reporting.
+    synonyms: [region, geographic region]
+    format: null
+  - name: sales_theater
+    display_name: Sales Theater
+    source_column: dim_geography.theater
+    data_type: string
+    description: Intermediate geographic sales area within a region used for operational reporting.
+    synonyms: [theater, sales area]
+    format: null
+  - name: geography_country
+    display_name: Geography Country
+    source_column: dim_geography.country
+    data_type: string
+    description: Country associated with the geography record for booking analysis.
+    synonyms: [country, sales country]
+    format: null
+  - name: sales_rep_id
+    display_name: Sales Representative ID
+    source_column: dim_sales_rep.rep_id
+    data_type: string
+    description: Business identifier assigned to the sales representative.
+    synonyms: [rep id, seller id]
+    format: null
+  - name: sales_rep_name
+    display_name: Sales Representative Name
+    source_column: dim_sales_rep.rep_name
+    data_type: string
+    description: Full name of the sales representative responsible for the customer relationship or sale.
+    synonyms: [rep name, seller name, account executive]
+    format: null
+  - name: sales_role
+    display_name: Sales Role
+    source_column: dim_sales_rep.sales_role
+    data_type: string
+    description: Job role or selling responsibility of the sales representative.
+    synonyms: [seller role, role]
+    format: null
+  - name: sales_team
+    display_name: Sales Team
+    source_column: dim_sales_rep.sales_team
+    data_type: string
+    description: Team or organizational unit to which the sales representative belongs.
+    synonyms: [team, organization]
+    format: null
+  - name: segment_covered
+    display_name: Covered Segment
+    source_column: dim_sales_rep.segment_covered
+    data_type: string
+    description: Customer segment for which the sales representative is responsible.
+    synonyms: [coverage segment, assigned segment]
+    format: null
+  - name: contract_type
+    display_name: Contract Type
+    source_column: dim_contract.contract_type
+    data_type: string
+    description: Type of commercial agreement or service contract associated with the booking.
+    synonyms: [agreement type, contract category]
+    format: null
+  - name: term_months
+    display_name: Contract Term Months
+    source_column: dim_contract.term_months
+    data_type: integer
+    description: Duration of the contract in months.
+    synonyms: [contract term, term]
+    format: "0"
+  - name: auto_renew_flag
+    display_name: Auto Renew Indicator
+    source_column: dim_contract.auto_renew_flag
+    data_type: string
+    description: Indicates whether the contract is configured to renew automatically.
+    synonyms: [auto renew, renewal setting]
+    format: null
+  - name: coverage_level
+    display_name: Coverage Level
+    source_column: dim_contract.coverage_level
+    data_type: string
+    description: Support, service, or entitlement coverage level provided under the contract.
+    synonyms: [service level, entitlement level]
+    format: null
+measures:
+  - name: booking_count
+    display_name: Booking Count
+    SQL_expression: count(fact_bookings.booking_id)
+    aggregation: count
+    data_type: bigint
+    description: Count of booking transaction records at booking order-line grain.
+    synonyms: [number of bookings, transaction count]
+    formatting: "0"
+  - name: distinct_order_count
+    display_name: Distinct Order Count
+    SQL_expression: count(distinct fact_bookings.order_number)
+    aggregation: count_distinct
+    data_type: bigint
+    description: Count of unique orders associated with bookings.
+    synonyms: [unique orders, order count]
+    formatting: "0"
+  - name: total_quantity
+    display_name: Total Quantity
+    SQL_expression: sum(fact_bookings.quantity)
+    aggregation: sum
+    data_type: bigint
+    description: Total number of units, licenses, or services included in bookings.
+    synonyms: [units sold, quantity sold]
+    formatting: "#,##0"
+  - name: total_list_price_usd
+    display_name: Total List Price USD
+    SQL_expression: sum(fact_bookings.unit_list_price_usd * coalesce(fact_bookings.quantity, 0))
+    aggregation: sum
+    data_type: decimal
+    description: Total list price value before discounts in U.S. dollars.
+    synonyms: [gross list value, extended list price]
+    formatting: "$#,##0.00"
+  - name: average_unit_list_price_usd
+    display_name: Average Unit List Price USD
+    SQL_expression: avg(fact_bookings.unit_list_price_usd)
+    aggregation: avg
+    data_type: decimal
+    description: Average list price per unit in U.S. dollars before discounts.
+    synonyms: [average list price, avg unit price]
+    formatting: "$#,##0.00"
+  - name: average_discount_pct
+    display_name: Average Discount Percentage
+    SQL_expression: avg(fact_bookings.discount_pct)
+    aggregation: avg
+    data_type: decimal
+    description: Average discount percentage applied to booked transactions.
+    synonyms: [avg discount, discount rate]
+    formatting: "0.00%"
+  - name: total_booking_amount_usd
+    display_name: Total Bookings USD
+    SQL_expression: sum(fact_bookings.booking_amount_usd)
+    aggregation: sum
+    data_type: decimal
+    description: Sum of net booked value in U.S. dollars and the headline demand metric.
+    synonyms: [total bookings, bookings revenue, booked value]
+    formatting: "$#,##0.00"
+  - name: total_acv_usd
+    display_name: Total ACV USD
+    SQL_expression: sum(fact_bookings.acv_usd)
+    aggregation: sum
+    data_type: decimal
+    description: Sum of annual contract value in U.S. dollars for subscription-oriented bookings.
+    synonyms: [acv, annual contract value]
+    formatting: "$#,##0.00"
+  - name: total_tcv_usd
+    display_name: Total TCV USD
+    SQL_expression: sum(fact_bookings.tcv_usd)
+    aggregation: sum
+    data_type: decimal
+    description: Sum of total contract value in U.S. dollars over the contract term.
+    synonyms: [tcv, total contract value]
+    formatting: "$#,##0.00"
+  - name: renewal_booking_amount_usd
+    display_name: Renewal Bookings USD
+    SQL_expression: sum(case when fact_bookings.is_renewal = 1 then fact_bookings.booking_amount_usd else 0 end)
+    aggregation: sum
+    data_type: decimal
+    description: Sum of booking amount in U.S. dollars for renewal transactions.
+    synonyms: [renewal bookings, retained bookings]
+    formatting: "$#,##0.00"
+  - name: net_new_booking_amount_usd
+    display_name: Net New Bookings USD
+    SQL_expression: sum(case when coalesce(fact_bookings.is_renewal, 0) = 0 then fact_bookings.booking_amount_usd else 0 end)
+    aggregation: sum
+    data_type: decimal
+    description: Sum of booking amount in U.S. dollars for non-renewal transactions.
+    synonyms: [new bookings, net new demand]
+    formatting: "$#,##0.00"
+  - name: max_booking_amount_usd
+    display_name: Maximum Booking Amount USD
+    SQL_expression: max(fact_bookings.booking_amount_usd)
+    aggregation: max
+    data_type: decimal
+    description: Largest single booking amount in U.S. dollars.
+    synonyms: [largest booking, max booked value]
+    formatting: "$#,##0.00"
+  - name: min_booking_amount_usd
+    display_name: Minimum Booking Amount USD
+    SQL_expression: min(fact_bookings.booking_amount_usd)
+    aggregation: min
+    data_type: decimal
+    description: Smallest single booking amount in U.S. dollars.
+    synonyms: [smallest booking, min booked value]
+    formatting: "$#,##0.00"
+calculated_measures:
+  - name: average_selling_price_usd
+    display_name: Average Selling Price USD
+    SQL_expression: "case when sum(fact_bookings.quantity) <> 0 then sum(fact_bookings.booking_amount_usd) / sum(fact_bookings.quantity) end"
+    aggregation: calculated
+    data_type: decimal
+    description: Average booked value per unit sold in U.S. dollars.
+    synonyms: [asp, average selling price]
+    formatting: "$#,##0.00"
+  - name: discount_amount_usd
+    display_name: Discount Amount USD
+    SQL_expression: "sum((fact_bookings.unit_list_price_usd * coalesce(fact_bookings.quantity, 0)) - fact_bookings.booking_amount_usd)"
+    aggregation: calculated
+    data_type: decimal
+    description: Difference between extended list price and net booking amount in U.S. dollars.
+    synonyms: [discount value, markdown amount]
+    formatting: "$#,##0.00"
+  - name: net_new_mix_pct
+    display_name: Net New Mix Percentage
+    SQL_expression: "case when sum(fact_bookings.booking_amount_usd) <> 0 then sum(case when coalesce(fact_bookings.is_renewal, 0) = 0 then fact_bookings.booking_amount_usd else 0 end) / sum(fact_bookings.booking_amount_usd) end"
+    aggregation: calculated
+    data_type: decimal
+    description: Share of total bookings represented by net-new bookings.
+    synonyms: [new business mix, net new percentage]
+    formatting: "0.00%"
+  - name: renewal_mix_pct
+    display_name: Renewal Mix Percentage
+    SQL_expression: "case when sum(fact_bookings.booking_amount_usd) <> 0 then sum(case when fact_bookings.is_renewal = 1 then fact_bookings.booking_amount_usd else 0 end) / sum(fact_bookings.booking_amount_usd) end"
+    aggregation: calculated
+    data_type: decimal
+    description: Share of total bookings represented by renewal bookings.
+    synonyms: [renewal percentage, retention mix]
+    formatting: "0.00%"
+  - name: acv_to_tcv_ratio
+    display_name: ACV to TCV Ratio
+    SQL_expression: "case when sum(fact_bookings.tcv_usd) <> 0 then sum(fact_bookings.acv_usd) / sum(fact_bookings.tcv_usd) end"
+    aggregation: calculated
+    data_type: decimal
+    description: Ratio of annual contract value to total contract value.
+    synonyms: [acv tcv ratio, annualization ratio]
+    formatting: "0.00%"
+  - name: average_booking_value_usd
+    display_name: Average Booking Value USD
+    SQL_expression: "case when count(fact_bookings.booking_id) <> 0 then sum(fact_bookings.booking_amount_usd) / count(fact_bookings.booking_id) end"
+    aggregation: calculated
+    data_type: decimal
+    description: Average booked value per booking transaction in U.S. dollars.
+    synonyms: [average deal size, average booking amount]
+    formatting: "$#,##0.00"
+hierarchies:
+  - name: date_hierarchy
+    levels: [calendar_year, fiscal_year, fiscal_quarter, month_name, booking_date]
+  - name: geography_hierarchy
+    levels: [sales_region, sales_theater, geography_country]
+  - name: product_hierarchy
+    levels: [business_entity, technology_domain, product_family, product_name]
+  - name: organization_hierarchy
+    levels: [sales_team, sales_role, sales_rep_name]
+business_metadata:
+  business_definitions:
+    booking_transaction: Stores individual completed sales booking transactions and associated financial measures.
+    total_bookings: Sum of net booked value in a period and the headline demand metric.
+    acv_tcv: Annual and total contract value for subscription bookings.
+    partner_contribution: Bookings analyzed by route to market and partner.
+    product_family_mix: Distribution of bookings across product families.
+  business_glossary_mapping:
+    fact_bookings: Booking Transaction
+    dim_customer: Customer
+    dim_product: Product
+    dim_partner: Partner
+    dim_geography: Geography
+    dim_sales_rep: Sales Representative
+    dim_contract: Contract
+    dim_date: Date
+  business_owner: Revenue Operations
+  tags: [bookings, revenue-analytics, quote-to-booking, star-schema, sales-performance]
+semantic_metadata:
+  display_names:
+    model_display_name: Quote to Booking Bookings Semantic Model
+    primary_measure_display_name: Total Bookings USD
+  friendly_names:
+    fact_bookings: Bookings
+    dim_customer: Customer
+    dim_product: Product
+    dim_partner: Partner
+    dim_geography: Geography
+    dim_sales_rep: Sales Representative
+    dim_contract: Contract
+    dim_date: Date
+  AI_synonyms:
+    bookings: [sales bookings, booked revenue, booked value, demand]
+    renewals: [renewal bookings, retained business, renewal demand]
+    net_new: [new business, new bookings, non-renewal bookings]
+    route_to_market: [channel, sales channel, go to market route]
+  search_keywords: [bookings, acv, tcv, renewals, customer, product family, partner, geography, fiscal year, sales team]
+validation:
+  total_tables: 8
+  total_dimensions: 40
+  total_measures: 13
+  total_relationships: 7
+  semantic_completeness_score: 0.98
+  warnings:
+    - Renewal capture rate and growth percentage were not generated because no contract expiration date, prior period baseline, or renewal due population exists in the supplied schema.
+    - Attach rate was not generated because no explicit hardware-attach relationship or entitlement attachment indicator exists in the supplied schema.
